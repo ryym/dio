@@ -35,9 +35,6 @@ class UsersController
     # ...
   end
 end
-
-# Inject manually
-Dio.inject(@controller, FooService: MockFooService.new)
 ```
 
 ## Motivation

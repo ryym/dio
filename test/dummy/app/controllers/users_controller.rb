@@ -1,12 +1,16 @@
 class UsersController < ApplicationController
+  include Dio
+
+  inject do |dio|
+    @user_detail = dio.load(UserDetail, "access-key")
+  end
 
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   def index
-    ud = UserDetail.new("access-key")
     @users = User.all.map do |user|
-      detail = ud.fetch_detail(user)
+      detail = @user_detail.fetch_detail(user)
       { user: user, detail: detail }
     end
   end

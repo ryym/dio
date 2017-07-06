@@ -1,9 +1,14 @@
 class UsersController < ApplicationController
+
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   # GET /users
   def index
-    @users = User.all
+    ud = UserDetail.new("access-key")
+    @users = User.all.map do |user|
+      detail = ud.fetch_detail(user)
+      { user: user, detail: detail }
+    end
   end
 
   # GET /users/1

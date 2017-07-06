@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'dio/container'
+
 module Dio
   extend ActiveSupport::Concern
 

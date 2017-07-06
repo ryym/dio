@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module Dio
   extend ActiveSupport::Concern
 
@@ -14,7 +16,7 @@ module Dio
   class_methods do
     def be_injectable
       # TODO: User can define the key and its factory block.
-      @@container.register(self) { self.new }
+      @@container.register(self) { new }
     end
 
     def inject(&injector)

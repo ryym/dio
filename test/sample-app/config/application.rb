@@ -21,6 +21,16 @@ module SampleApp
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults 5.1
 
+    # Enable to autoload Dio library.
+    config.autoload_paths << Rails.root.join("../../lib")
+
+    # I don't know why but Rails doesn't reload Dio correctly when
+    # I change the files so remove Dio manually whenever a file is changed
+    # to make Rails re-autoload it.
+    config.to_prepare do
+      Object.class_eval { remove_const :Dio if defined? Dio }
+    end
+
     # Settings in config/environments/* take precedence over those specified here.
     # Application configuration should go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded.

@@ -1,0 +1,48 @@
+AllCops:
+  TargetRubyVersion: 2.4
+  TargetRailsVersion: 5.1
+  Exclude:
+    - "test/dummy/**/*"
+  UseCache: true
+  DisplayCopNames: true
+  DisplayStyleGuide: true
+
+Style/TrailingCommaInLiteral:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInArguments:
+  Enabled: true
+  EnforcedStyleForMultiline: comma
+
+Layout/DotPosition:
+  Enabled: true
+  EnforcedStyle: trailing
+
+Metrics/LineLength:
+  Enabled: true
+  Max: 100
+
+Metrics/ClassLength:
+  Enabled: true
+  Max: 100
+  Exclude:
+    - "test/**/*"
+
+Metrics/MethodLength:
+  Enabled: true
+  CountComments: false
+  Max: 20
+  Exclude:
+    - "test/**/*"
+
+Metrics/BlockLength:
+  Enabled: true
+  Exclude:
+    - "test/**/*"
+
+Metrics/AbcSize:
+  Enabled: true
+  Max: 25
+  Exclude:
+    - "test/**/*"

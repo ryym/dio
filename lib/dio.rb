@@ -12,6 +12,7 @@ module Dio
   end
 
   def __dio_inject__(dio)
+    return unless defined? @@__dio_inject__
     instance_exec dio, &@@__dio_inject__
   end
 

@@ -18,7 +18,7 @@ module Dio
   class_methods do
     def be_injectable
       # TODO: User can define the key and its factory block.
-      @@container.register(self) { new }
+      @@container.register(self) { |*args| new(*args) }
     end
 
     def inject(&injector)

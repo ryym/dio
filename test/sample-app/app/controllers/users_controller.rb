@@ -4,7 +4,11 @@ class UsersController < ApplicationController
   # GET /users
   # GET /users.json
   def index
-    @users = User.all
+    user_detail = UserDetail.new("access-key")
+    @users = User.all.map do |user|
+      detail = user_detail.fetch_detail(user)
+      { user: user, detail: detail }
+    end
   end
 
   # GET /users/1

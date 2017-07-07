@@ -26,13 +26,4 @@ module Dio
       @@__dio_inject__ = injector
     end
   end
-
-  included do
-    # XXX: Rails Controller specific process.
-    if respond_to?(:before_action)
-      before_action do
-        Dio.inject(self)
-      end
-    end
-  end
 end

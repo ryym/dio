@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  include Dio
+  include Dio::Rails::Controller
 
   inject do |dio|
     @user_detail = dio.load(UserDetail, "access-key")

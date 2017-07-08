@@ -2,6 +2,9 @@
 
 require 'dio/container'
 
+# rubocop:disable Style/ClassVars
+
+# Dio provides DI functionality.
 module Dio
   extend ActiveSupport::Concern
 

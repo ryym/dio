@@ -3,7 +3,7 @@
 require 'dio'
 
 module Dio
+  # Dio::Rails enables to use Dio in Ruby on Rails.
   module Rails
-    # Your code goes here...
   end
 end

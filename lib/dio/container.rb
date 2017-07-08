@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Dio
+  # Container stores dependency key and its factory.
   class Container
     def initialize
       @factories = {}

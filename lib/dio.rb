@@ -14,9 +14,9 @@ module Dio
     @@container.inject(obj)
   end
 
-  def __dio_inject__(dio)
+  def __dio_inject__(container)
     return unless defined? @@__dio_inject__
-    instance_exec dio, &@@__dio_inject__
+    instance_exec container, &@@__dio_inject__
   end
 
   class_methods do

@@ -12,10 +12,13 @@ module Dio
     end
 
     def load(key, *args)
-      @factories[key].call(*args)
+      @factories[key]&.call(*args)
     end
 
     def inject(obj)
+      unless obj.respond_to?(:__dio_inject__)
+        raise 'The given object does not include Dio module'
+      end
       obj.__dio_inject__(self)
       obj
     end

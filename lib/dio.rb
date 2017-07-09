@@ -16,8 +16,16 @@ module Dio
     @container
   end
 
-  def __dio_inject__(container)
-    instance_exec container, &self.class.__dio_injector__
+  def self.before_load(&loader)
+    @container.before_load(&loader)
+  end
+
+  def self.clear_before_loads
+    @container.clear_before_loads
+  end
+
+  def __dio_inject__(loader)
+    instance_exec loader, &self.class.__dio_injector__
   end
 
   class_methods do

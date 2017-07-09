@@ -4,7 +4,11 @@ class AgeCalculator
 
   be_injectable
 
+  def initialize(now = Time.zone.now)
+    @now = now
+  end
+
   def from_birthday(date)
-    Time.zone.now.year - date.year
+    @now.year - date.year
   end
 end

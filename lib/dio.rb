@@ -15,8 +15,7 @@ module Dio
   end
 
   def __dio_inject__(container)
-    return unless defined? @@__dio_inject__
-    instance_exec container, &@@__dio_inject__
+    instance_exec container, &self.class.__dio_injector__
   end
 
   class_methods do
@@ -26,7 +25,11 @@ module Dio
     end
 
     def inject(&injector)
-      @@__dio_inject__ = injector
+      @__dio_injector__ = injector
+    end
+
+    def __dio_injector__
+      @__dio_injector__
     end
   end
 end

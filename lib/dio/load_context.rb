@@ -12,8 +12,9 @@ module Dio
       @next = next_loader
     end
 
-    def next(args: @args)
-      @next.call(args: args)
+    def next(*args)
+      next_args = args.present? ? args : @args
+      @next.call(*next_args)
     end
   end
 end

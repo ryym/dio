@@ -18,9 +18,12 @@ module Dio
       @factories.key?(key)
     end
 
+    def factory(key)
+      @factories[key]
+    end
+
     def load(key, *args)
-      return nil unless registered?(key)
-      @factories[key].call(*args)
+      factory(key)&.call(*args)
     end
   end
 end

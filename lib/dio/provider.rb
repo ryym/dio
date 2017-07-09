@@ -20,9 +20,9 @@ module Dio
     def load(key:, target: nil, args: [])
       return nil unless @container.registered?(key)
 
-      actual_loader = make_actual_loader(key)
+      actual_loader = @container.factory(key)
       loader_chain = chain_loaders(key, target, actual_loader)
-      loader_chain.call(args: args)
+      loader_chain.call(*args)
     end
 
     def wrap_load(&loader)
@@ -45,16 +45,19 @@ module Dio
 
     private
 
-    def make_actual_loader(key)
-      lambda do |args:|
-        next @overrides.load(key, *args) if @overrides.registered?(key)
-        @container.load(key, *args)
+    def overriding_loader
+      lambda do |ctx|
+        if @overrides.registered?(ctx.key)
+          next @overrides.load(ctx.key, *ctx.args)
+        end
+        ctx.next
       end
     end
 
     def chain_loaders(key, target, last_loader)
-      @loaders.inject(last_loader) do |next_loader, loader|
-        lambda do |args:|
+      loaders = [overriding_loader] + @loaders
+      loaders.inject(last_loader) do |next_loader, loader|
+        lambda do |*args|
           ctx = LoadContext.new(key, target, args, next_loader)
           loader.call(ctx)
         end

@@ -29,6 +29,14 @@ module Dio
     @provider.clear_wrap_loads
   end
 
+  def self.override(alts)
+    @provider.override(alts)
+  end
+
+  def self.remove_overrides
+    @provider.remove_overrides
+  end
+
   def __dio_inject__(loader)
     instance_exec loader, &self.class.__dio_injector__
   end

@@ -9,6 +9,7 @@ module Dio
   class Provider
     def initialize(container = Container.new)
       @container = container
+      @overrides = Container.new
       @loaders = []
     end
 
@@ -32,10 +33,21 @@ module Dio
       @loaders = []
     end
 
+    def override(alts)
+      alts.each do |key, factory|
+        @overrides.register(key, &factory)
+      end
+    end
+
+    def remove_overrides
+      @overrides = Container.new
+    end
+
     private
 
     def make_actual_loader(key)
       lambda do |args:|
+        next @overrides.load(key, *args) if @overrides.registered?(key)
         @container.load(key, *args)
       end
     end

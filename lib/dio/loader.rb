@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 module Dio
-  # Loader is a proxy of Container#load.
+  # Loader is a proxy of Provider#load.
   class Loader
-    def initialize(container, target)
-      @container = container
+    def initialize(provider, target)
+      @provider = provider
       @target = target
     end
 
     def load(key, *args)
-      @container.load(key: key, target: @target, args: args)
+      @provider.load(key: key, target: @target, args: args)
     end
   end
 end

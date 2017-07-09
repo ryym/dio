@@ -1,27 +1,32 @@
 # frozen_string_literal: true
 
-require 'dio/container'
+require 'dio/provider'
 
 # Dio provides DI functionality.
 module Dio
   extend ActiveSupport::Concern
 
-  @container = Dio::Container.new
+  @provider = Dio::Provider.new
 
-  def self.inject(obj)
-    @container.inject(obj)
+  def self.inject(target)
+    unless target.respond_to?(:__dio_inject__)
+      raise 'The given object does not include Dio module'
+    end
+    loader = Loader.new(@provider, target)
+    target.__dio_inject__(loader)
+    target
   end
 
-  def self.default_container
-    @container
+  def self.default_provider
+    @provider
   end
 
-  def self.before_load(&loader)
-    @container.before_load(&loader)
+  def self.wrap_load(&loader)
+    @provider.wrap_load(&loader)
   end
 
-  def self.clear_before_loads
-    @container.clear_before_loads
+  def self.clear_wrap_loads
+    @provider.clear_wrap_loads
   end
 
   def __dio_inject__(loader)
@@ -31,7 +36,7 @@ module Dio
   class_methods do
     def be_injectable
       # TODO: User can define the key and its factory block.
-      Dio.default_container.register(self) { |*args| new(*args) }
+      Dio.default_provider.register(self) { |*args| new(*args) }
     end
 
     def inject(&injector)

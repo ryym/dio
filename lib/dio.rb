@@ -44,7 +44,12 @@ module Dio
   class_methods do
     def injectable(subkey = nil, &block)
       key = subkey ? [self, subkey] : self
-      factory = block || lambda { |*args| new(*args) }
+      factory = block || ->(*args) { new(*args) }
+      Dio.default_provider.register(key, &factory)
+    end
+
+    def provide(key, &factory)
+      raise "You must define a factory of #{key}" unless block_given?
       Dio.default_provider.register(key, &factory)
     end
 

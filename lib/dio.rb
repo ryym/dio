@@ -42,7 +42,7 @@ module Dio
   end
 
   class_methods do
-    def be_injectable
+    def injectable
       # TODO: User can define the key and its factory block.
       Dio.default_provider.register(self) { |*args| new(*args) }
     end

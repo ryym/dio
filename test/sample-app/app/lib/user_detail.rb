@@ -3,7 +3,7 @@
 class UserDetail
   include Dio
 
-  be_injectable
+  injectable
 
   Data = Struct.new(:key, :data)
 

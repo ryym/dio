@@ -2,7 +2,7 @@
 class AgeCalculator
   include Dio
 
-  be_injectable
+  injectable
 
   def initialize(now = Time.zone.now)
     @now = now

@@ -42,9 +42,10 @@ module Dio
   end
 
   class_methods do
-    def injectable
-      # TODO: User can define the key and its factory block.
-      Dio.default_provider.register(self) { |*args| new(*args) }
+    def injectable(subkey = nil, &block)
+      key = subkey ? [self, subkey] : self
+      factory = block || lambda { |*args| new(*args) }
+      Dio.default_provider.register(key, &factory)
     end
 
     def inject(&injector)

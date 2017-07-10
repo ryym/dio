@@ -5,6 +5,10 @@ class UserDetail
 
   injectable
 
+  injectable :pattern_b do
+    new("access-key-B")
+  end
+
   Data = Struct.new(:key, :data)
 
   def initialize(access_key)
@@ -12,6 +16,6 @@ class UserDetail
   end
 
   def fetch_detail(user)
-    Data.new(@access_key, "Detail about #{user.name}.")
+    Data.new(@access_key, "Detail of #{user.name} / #{@access_key}.")
   end
 end

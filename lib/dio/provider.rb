@@ -1,26 +1,36 @@
 # frozen_string_literal: true
 
-require 'dio/container'
 require 'dio/load_context'
 
 module Dio
   # Provider loads dependencies and allows you to hook
   # some processes before/after loading.
   class Provider
-    def initialize(container = Container.new)
-      @container = container
-      @overrides = Container.new
-      @loaders = []
+    def initialize(factories = {}, loaders = [])
+      @factories = factories
+      @loaders = loaders
     end
 
     def register(key, &factory)
-      @container.register(key, &factory)
+      @factories[key] = factory
+      self
+    end
+
+    def register_all(deps)
+      deps.each do |key, factory|
+        register(key, &factory)
+      end
+      self
+    end
+
+    def registered?(key)
+      @factories.key?(key)
     end
 
     def load(key:, target: nil, args: [])
-      return nil unless @container.registered?(key)
+      return nil unless registered?(key)
 
-      actual_loader = @container.factory(key)
+      actual_loader = @factories[key]
       loader_chain = chain_loaders(key, target, actual_loader)
       loader_chain.call(*args)
     end
@@ -33,30 +43,14 @@ module Dio
       @loaders = []
     end
 
-    def override(alts)
-      alts.each do |key, factory|
-        @overrides.register(key, &factory)
-      end
-    end
-
-    def remove_overrides
-      @overrides = Container.new
+    def dup
+      Provider.new(@factories.dup, @loaders.dup)
     end
 
     private
 
-    def overriding_loader
-      lambda do |ctx|
-        if @overrides.registered?(ctx.key)
-          next @overrides.load(ctx.key, *ctx.args)
-        end
-        ctx.next
-      end
-    end
-
     def chain_loaders(key, target, last_loader)
-      loaders = [overriding_loader] + @loaders
-      loaders.inject(last_loader) do |next_loader, loader|
+      @loaders.inject(last_loader) do |next_loader, loader|
         lambda do |*args|
           ctx = LoadContext.new(key, target, args, next_loader)
           loader.call(ctx)

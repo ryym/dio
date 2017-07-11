@@ -2,7 +2,6 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   teardown do
-    # Dio.clear_before_loads
     Dio.remove_overrides
   end
 

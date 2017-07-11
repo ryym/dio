@@ -23,4 +23,20 @@ class UserTest < ActiveSupport::TestCase
     user = User.new(birthday: Time.zone.local(2000, 3, 10))
     assert_equal(20, user.age)
   end
+
+  test "#age with mock more simply" do
+    user_attrs = { birthday: Time.zone.local(2005, 1, 1) }
+
+    injector = Dio.with(
+      AgeCalculator => proc {
+        AgeCalculator.new(Time.zone.local(2020, 1, 1))
+      }
+    )
+    user = injector.create(User, user_attrs)
+    assert_equal(15, user.age)
+
+    # The original injector doesn't change.
+    user = Dio.create(User, user_attrs)
+    assert_equal(Time.zone.now.year - 2005, user.age)
+  end
 end

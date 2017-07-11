@@ -25,6 +25,11 @@ module Dio
       target
     end
 
+    def create(clazz, *args)
+      instance = block_given? ? yield(*args) : clazz.new(*args)
+      inject(instance)
+    end
+
     def override(deps)
       unless overridden?
         @original_provider = @provider
@@ -41,6 +46,11 @@ module Dio
 
     def overridden?
       !@original_provider.nil?
+    end
+
+    def with(deps)
+      provider = @provider.dup
+      Injector.new(provider.register_all(deps))
     end
   end
 end

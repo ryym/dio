@@ -12,6 +12,10 @@ module Dio
     @injector.inject(target)
   end
 
+  def self.create(clazz, *args)
+    @injector.create(clazz, *args)
+  end
+
   def self.default_injector
     @injector
   end
@@ -30,6 +34,10 @@ module Dio
 
   def self.remove_overrides
     @injector.remove_overrides
+  end
+
+  def self.with(deps)
+    @injector.with(deps)
   end
 
   def __dio_inject__(loader)

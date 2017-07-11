@@ -2,11 +2,11 @@
 
 $LOAD_PATH.push File.expand_path('../lib', __FILE__)
 
-require 'dio/rails/version'
+require 'dio/version'
 
 Gem::Specification.new do |s|
   s.name        = 'dio-rails'
-  s.version     = Dio::Rails::VERSION
+  s.version     = Dio::VERSION
   s.authors     = ['ryym']
   s.email       = ['ryym.64@gmail.com']
   s.homepage    = 'https://github.com/ryym/dio'

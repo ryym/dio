@@ -8,11 +8,13 @@ module Dio
     # Rails controllers.
     module Controller
       extend ActiveSupport::Concern
-      include Dio
+
+      DioForController = Dio.use(:default)
+      include DioForController
 
       included do
         before_action do
-          Dio.inject(self)
+          DioForController.inject(self)
         end
       end
     end

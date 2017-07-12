@@ -8,11 +8,13 @@ module Dio
     # Rails models.
     module Model
       extend ActiveSupport::Concern
-      include Dio
+
+      DioForModel = Dio.use(:default)
+      include DioForModel
 
       included do
         after_initialize do |model|
-          Dio.inject(model)
+          DioForModel.inject(model)
         end
       end
     end

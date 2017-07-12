@@ -34,4 +34,12 @@ module Dio
   def self.with(deps)
     @injector.with(deps)
   end
+
+  def self.use(injector = default_injector)
+    Module.new do
+      extend ActiveSupport::Concern
+      extend ModuleBase
+      @injector = injector
+    end
+  end
 end

@@ -2,20 +2,14 @@
 
 require 'active_support/concern'
 require 'dio/injector'
+require 'dio/module_base'
 
 # Dio provides DI functionality.
 module Dio
   extend ActiveSupport::Concern
+  extend Dio::ModuleBase
 
   @injector = Dio::Injector.new
-
-  def self.inject(target)
-    @injector.inject(target)
-  end
-
-  def self.create(clazz, *args)
-    @injector.create(clazz, *args)
-  end
 
   def self.default_injector
     @injector
@@ -39,30 +33,5 @@ module Dio
 
   def self.with(deps)
     @injector.with(deps)
-  end
-
-  def __dio_inject__(loader)
-    instance_exec loader, &self.class.__dio_injector__
-  end
-
-  class_methods do
-    def injectable(subkey = nil, &block)
-      key = subkey ? [self, subkey] : self
-      factory = block || ->(*args) { new(*args) }
-      Dio.default_injector.register(key, &factory)
-    end
-
-    def provide(key, &factory)
-      raise "You must define a factory of #{key}" unless block_given?
-      Dio.default_injector.register(key, &factory)
-    end
-
-    def inject(&injector)
-      @__dio_injector__ = injector
-    end
-
-    def __dio_injector__
-      @__dio_injector__
-    end
   end
 end

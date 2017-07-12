@@ -1,12 +1,8 @@
 .bundle/
 log/*.log
 pkg/
-test/dummy/db/*.sqlite3
-test/dummy/db/*.sqlite3-journal
-test/dummy/log/*.log
-test/dummy/tmp/
-test/sample-app/db/*.sqlite3
-test/sample-app/db/*.sqlite3-journal
-test/sample-app/log/*.log
-test/sample-app/tmp/
+spec/sample-app/db/*.sqlite3
+spec/sample-app/db/*.sqlite3-journal
+spec/sample-app/log/*.log
+spec/sample-app/tmp/
 .byebug_history

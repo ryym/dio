@@ -2,7 +2,7 @@ AllCops:
   TargetRubyVersion: 2.4
   TargetRailsVersion: 5.1
   Exclude:
-    - "test/sample-app/**/*"
+    - "spec/sample-app/**/*"
   UseCache: true
   DisplayCopNames: true
   DisplayStyleGuide: true
@@ -17,7 +17,7 @@ Style/TrailingCommaInArguments:
 
 Style/ClassAndModuleChildren:
   Exclude:
-    - "test/**/*"
+    - "spec/**/*"
 
 Layout/DotPosition:
   Enabled: true
@@ -31,22 +31,22 @@ Metrics/ClassLength:
   Enabled: true
   Max: 100
   Exclude:
-    - "test/**/*"
+    - "spec/**/*"
 
 Metrics/MethodLength:
   Enabled: true
   CountComments: false
   Max: 20
   Exclude:
-    - "test/**/*"
+    - "spec/**/*"
 
 Metrics/BlockLength:
   Enabled: true
   Exclude:
-    - "test/**/*"
+    - "spec/**/*"
 
 Metrics/AbcSize:
   Enabled: true
   Max: 25
   Exclude:
-    - "test/**/*"
+    - "spec/**/*"

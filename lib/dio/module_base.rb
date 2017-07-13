@@ -6,7 +6,6 @@ module Dio
     extend ActiveSupport::Concern
 
     # @injector is defined in a module that extends ModuleBase.
-    attr_reader :injector
 
     def inject(target)
       @injector.inject(target)

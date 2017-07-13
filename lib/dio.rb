@@ -2,6 +2,7 @@
 
 require 'active_support/concern'
 require 'dio/injector'
+require 'dio/injector_store'
 require 'dio/module_base'
 
 # Dio provides DI functionality.
@@ -10,6 +11,11 @@ module Dio
   extend Dio::ModuleBase
 
   @injector = Dio::Injector.new
+  @injectors = InjectorStore.new(default: @injector)
+
+  def self.injector(id = :default)
+    @injectors.load(id)
+  end
 
   def self.default_injector
     @injector
@@ -35,11 +41,17 @@ module Dio
     @injector.with(deps)
   end
 
-  def self.use(injector = default_injector)
+  def self.use(injector_id, injector = nil)
+    injectors = @injectors
+
     Module.new do
       extend ActiveSupport::Concern
       extend ModuleBase
-      @injector = injector
+      @injector = injectors.register_and_load(injector_id, injector)
+
+      def injector(key = nil)
+        key.nil? ? @injector : Dio.injector(key)
+      end
     end
   end
 end

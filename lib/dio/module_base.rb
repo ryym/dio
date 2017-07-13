@@ -28,7 +28,8 @@ module Dio
 
     module InstanceMethods # rubocop:disable Style/Documentation
       def __dio_inject__(loader)
-        instance_exec loader, &self.class.__dio_injection_proc__
+        injection_proc = self.class.__dio_injection_proc__
+        instance_exec loader, &injection_proc if injection_proc
       end
     end
 

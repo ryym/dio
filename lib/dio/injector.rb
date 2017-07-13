@@ -9,11 +9,17 @@ module Dio
   class Injector
     extend Forwardable
 
-    def_delegators :@provider, :register, :wrap_load, :clear_wrap_loads
+    def_delegators :@provider, :wrap_load, :clear_wrap_loads
 
     def initialize(provider = Dio::Provider.new)
       @provider = provider
       @original_provider = nil
+    end
+
+    def register(key)
+      @provider.register(key) do |*args|
+        inject(yield(*args))
+      end
     end
 
     def inject(target)

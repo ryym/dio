@@ -37,6 +37,11 @@ module Dio
 
     def wrap_load(&loader)
       @loaders.unshift(loader)
+      -> { delete_wrap_load(loader) }
+    end
+
+    def delete_wrap_load(loader)
+      @loaders.delete(loader)
     end
 
     def clear_wrap_loads

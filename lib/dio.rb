@@ -47,7 +47,8 @@ module Dio
     Module.new do
       extend ActiveSupport::Concern
       extend DioBase
-      @injector = injectors.register_and_load(injector_id, injector)
+
+      @injector = injectors.register(injector_id, injector)
 
       def injector(key = nil)
         key.nil? ? @injector : Dio.injector(key)

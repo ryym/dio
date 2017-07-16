@@ -9,13 +9,16 @@ module Dio
       @injectors = injectors
     end
 
-    def register_and_load(id, injector = nil)
-      injector ||= @injectors[id]
-      if injector.nil?
+    def register(id, injector = nil)
+      if @injectors.key?(id)
+        injector ||= @injectors[id]
+        if injector != @injectors[id]
+          raise "Injector ID #{id} is already used for another injector"
+        end
+      elsif injector.nil?
         injector = Dio::Injector.new
-      elsif injector != @injectors[id]
-        raise "Injector ID #{id} is already used for another injector"
       end
+
       @injectors[id] = injector
     end
 
@@ -23,8 +26,12 @@ module Dio
       @injectors[id]
     end
 
-    def delete(id)
-      @injectors.delete(id)
+    def remove(id)
+      @injectors.remove(id)
+    end
+
+    def ids
+      @injectors.keys
     end
   end
 end

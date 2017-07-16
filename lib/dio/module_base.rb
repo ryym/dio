@@ -1,25 +1,27 @@
 # frozen_string_literal: true
 
 module Dio
-  # DioBase implements core interface methods of Dio.
-  module DioBase
+  # Dio::ModuleBase provides core methods as a mixin.
+  module ModuleBase
     extend ActiveSupport::Concern
 
-    # @injector is defined in a module that extends DioBase.
+    def injector(id = nil)
+      @state.injector(id || @injector_id)
+    end
 
     def inject(target)
-      @injector.inject(target)
+      injector.inject(target)
     end
 
     def create(clazz, *args)
-      @injector.create(clazz, *args)
+      injector.create(clazz, *args)
     end
 
     def included(base)
-      injector = @injector
+      my_injector = injector
       injector_holder = Module.new do
         define_method :__dio_injector__ do
-          injector
+          my_injector
         end
       end
       base.extend(ClassMethods, injector_holder)

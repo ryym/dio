@@ -27,7 +27,15 @@ module Dio
       @factories.key?(key)
     end
 
-    def load(key:, target: nil, args: [])
+    def factory(key)
+      @factories[key]
+    end
+
+    def load(key, *args)
+      load_with(key: key, args: args)
+    end
+
+    def load_with(key:, target: nil, args: [])
       return nil unless registered?(key)
 
       actual_loader = @factories[key]

@@ -9,7 +9,7 @@ module Dio
     end
 
     def load(key, *args)
-      @provider.load(key: key, target: @target, args: args)
+      @provider.load_with(key: key, target: @target, args: args)
     end
   end
 end

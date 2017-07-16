@@ -13,7 +13,7 @@ module Dio
     end
 
     def next(*args)
-      next_args = args.present? ? args : @args
+      next_args = args.any? ? args : @args
       @next.call(*next_args)
     end
   end

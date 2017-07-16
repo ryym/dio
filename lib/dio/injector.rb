@@ -24,7 +24,7 @@ module Dio
 
     def inject(target)
       unless target.respond_to?(:__dio_inject__)
-        raise 'The given object does not include Dio module'
+        raise ArgumentError, 'The given object does not include Dio module'
       end
       loader = Loader.new(@provider, target)
       target.__dio_inject__(loader)
@@ -32,8 +32,8 @@ module Dio
     end
 
     def create(clazz, *args)
-      instance = block_given? ? yield(*args) : clazz.new(*args)
-      inject(instance)
+      raise ArgumentError, "#{clazz} is not a class" unless clazz.is_a?(Class)
+      inject(clazz.new(*args))
     end
 
     def override(deps)

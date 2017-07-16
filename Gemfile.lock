@@ -180,6 +180,7 @@ DEPENDENCIES
   dio-rails!
   guard-rspec
   rspec
+  rspec-mocks
   rubocop
   sqlite3
 

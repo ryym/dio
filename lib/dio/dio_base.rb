@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 module Dio
-  # ModuleBase implements core interface methods of Dio.
-  module ModuleBase
+  # DioBase implements core interface methods of Dio.
+  module DioBase
     extend ActiveSupport::Concern
 
-    # @injector is defined in a module that extends ModuleBase.
+    # @injector is defined in a module that extends DioBase.
 
     def inject(target)
       @injector.inject(target)

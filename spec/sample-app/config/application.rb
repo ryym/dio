@@ -26,11 +26,13 @@ module SampleApp
     # Enable to autoload Dio library.
     config.autoload_paths << Rails.root.join("../../lib")
 
-    # I don't know why but Rails doesn't reload Dio correctly when
-    # I change the files so remove Dio manually whenever a file is changed
-    # to make Rails re-autoload it.
-    config.to_prepare do
-      Object.class_eval { remove_const :Dio if defined? Dio }
+    if Rails.env.development?
+      # I don't know why but Rails doesn't reload Dio correctly when
+      # I change the files so remove Dio manually whenever a file is changed
+      # to make Rails re-autoload it.
+      config.to_prepare do
+        Object.class_eval { remove_const :Dio if defined? Dio }
+      end
     end
 
     # Settings in config/environments/* take precedence over those specified here.

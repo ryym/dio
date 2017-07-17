@@ -25,4 +25,14 @@ RSpec::Core::RakeTask.new(:spec) do |t|
   t.verbose = false
 end
 
-task default: :spec
+namespace :spec do
+  desc 'Run sample-app tests'
+  task :sample do
+    puts 'Running tests in sample Rails app...'
+    Dir.chdir('spec/sample-app') do
+      system('bin/rails test')
+    end
+  end
+end
+
+task default: [:spec, 'spec:sample']

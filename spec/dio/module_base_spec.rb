@@ -3,23 +3,19 @@
 require 'spec_helper'
 
 describe Dio::ModuleBase do
-  State = Dio::State
-  Injector = Dio::Injector
-  Equip = Dio::Equip
-
   describe '.injector' do
     it 'returns the default injector' do
-      injector = Injector.new
-      dio = Equip.equip_dio(injector_id: :default, injector: injector)
+      injector = Dio::Injector.new
+      dio = Dio::Equip.equip_dio(injector_id: :default, injector: injector)
       expect(dio.injector).to eq(injector)
     end
 
     context 'when a key is given' do
       it 'returns an injector associated with the key' do
-        injector = Injector.new
-        state = State.new
+        injector = Dio::Injector.new
+        state = Dio::State.new
         state.register_injector(:hello, injector)
-        dio = Equip.equip_dio(injector_id: :a, state: state)
+        dio = Dio::Equip.equip_dio(injector_id: :a, state: state)
         expect(dio.injector(:hello)).to eq(injector)
       end
     end
@@ -29,7 +25,7 @@ describe Dio::ModuleBase do
     def new_includer(**args)
       args[:injector_id] = :test unless args.key?(:injector_id)
       Class.new do
-        include Equip.equip_dio(**args)
+        include Dio::Equip.equip_dio(**args)
       end
     end
 

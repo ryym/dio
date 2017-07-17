@@ -3,11 +3,9 @@
 require 'spec_helper'
 
 describe Dio::Provider do
-  Provider = Dio::Provider
-
   describe '#register' do
     it 'registers a given block as a factory' do
-      provider = Provider.new
+      provider = Dio::Provider.new
       factory = -> { 'hello' }
       provider.register(:greet, &factory)
       expect(provider.factory(:greet)).to eq(factory)
@@ -16,7 +14,7 @@ describe Dio::Provider do
 
   describe '#load' do
     it 'runs a factory to load an object' do
-      provider = Provider.new
+      provider = Dio::Provider.new
       provider.register(:greet) do |someone = 'world'|
         "Hello, #{someone}"
       end
@@ -26,7 +24,7 @@ describe Dio::Provider do
 
     context 'with load wrapping' do
       it 'runs load wrappers in the registered order' do
-        provider = Provider.new
+        provider = Dio::Provider.new
         provider.register(:greet) { 'hello' }
 
         logs = []

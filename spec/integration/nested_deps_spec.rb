@@ -39,6 +39,6 @@ describe 'Nested dependency loading' do
       end
     end
 
-    expect(Dio.create(c_class).c).to eq([:c, [:b, :a]])
+    expect(Dio.create(c_class).c).to eq([:c, %i[b a]])
   end
 end

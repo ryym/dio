@@ -36,6 +36,6 @@ describe 'Basic Dio usage' do
     end
 
     c = Dio.create(c_class)
-    expect(c.check).to eq([:a, :b])
+    expect(c.check).to eq(%i[a b])
   end
 end

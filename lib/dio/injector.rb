@@ -18,12 +18,13 @@ module Dio
 
     def register(key)
       @provider.register(key) do |*args|
-        inject(yield(*args))
+        object = yield(*args)
+        injectable?(object) ? inject(object) : object
       end
     end
 
     def inject(target)
-      unless target.respond_to?(:__dio_inject__)
+      unless injectable?(target)
         raise ArgumentError, 'The given object does not include Dio module'
       end
       loader = Loader.new(@provider, target)
@@ -57,6 +58,12 @@ module Dio
     def with(deps)
       provider = @provider.dup
       Injector.new(provider.register_all(deps))
+    end
+
+    private
+
+    def injectable?(object)
+      object.respond_to?(:__dio_inject__)
     end
   end
 end

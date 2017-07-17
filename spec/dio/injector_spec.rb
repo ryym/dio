@@ -15,8 +15,11 @@ describe Dio::Injector do
       provider = Dio::Provider.new
       injector = Dio::Injector.new(provider)
 
+      greet = double('greet')
+      allow(greet).to receive(:__dio_inject__)
+
       expect(injector).to receive(:inject)
-      injector.register(:greet) {}
+      injector.register(:greet) { greet }
       provider.load(:greet)
     end
 

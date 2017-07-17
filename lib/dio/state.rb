@@ -16,5 +16,9 @@ module Dio
     def injector(id)
       @injectors.load(id)
     end
+
+    def reset(injectors = {})
+      @injectors = Dio::InjectorStore.new(injectors)
+    end
   end
 end

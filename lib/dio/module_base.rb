@@ -2,6 +2,8 @@
 
 module Dio
   # Dio::ModuleBase provides core methods as a mixin.
+  # A module who extends ModuleBase must define @state and @injector_id
+  # as class instance variables.
   module ModuleBase
     extend ActiveSupport::Concern
 
@@ -15,6 +17,10 @@ module Dio
 
     def create(clazz, *args)
       injector.create(clazz, *args)
+    end
+
+    def reset_state
+      @state.reset(@injector_id => Dio::Injector.new)
     end
 
     def included(base)

@@ -23,10 +23,28 @@ describe Dio::Injector do
       provider.load(:greet)
     end
 
-    it 'registers a given object as a block to its provider'
+    it 'registers a given object as a block to its provider' do
+      provider = Dio::Provider.new
+      injector = Dio::Injector.new(provider)
+
+      injector.register(:greet, :hello)
+      expect(provider.load(:greet)).to eq(:hello)
+    end
 
     context 'if both of object and block are given' do
-      it 'raises an error'
+      it 'raises an error' do
+        expect do
+          Dio::Injector.new.register(:key, :value) {}
+        end.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'if neither object nor block is given' do
+      it 'raises an error' do
+        expect do
+          Dio::Injector.new.register(:key)
+        end.to raise_error(ArgumentError)
+      end
     end
   end
 

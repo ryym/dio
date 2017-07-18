@@ -16,9 +16,10 @@ module Dio
       @original_provider = nil
     end
 
-    def register(key)
+    def register(key, object = nil)
+      assert_register_args_valid(object, block_given?)
       @provider.register(key) do |*args|
-        object = yield(*args)
+        object = yield(*args) if block_given?
         injectable?(object) ? inject(object) : object
       end
     end
@@ -61,6 +62,11 @@ module Dio
     end
 
     private
+
+    def assert_register_args_valid(object, block_given)
+      return if (object || block_given) && !(object && block_given)
+      raise ArgumentError, 'You must specify either an object OR a block'
+    end
 
     def injectable?(object)
       object.respond_to?(:__dio_inject__)

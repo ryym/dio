@@ -172,6 +172,7 @@ GEM
     websocket-driver (0.6.5)
       websocket-extensions (>= 0.1.0)
     websocket-extensions (0.1.2)
+    yard (0.9.9)
 
 PLATFORMS
   ruby
@@ -183,6 +184,7 @@ DEPENDENCIES
   rspec-mocks
   rubocop
   sqlite3
+  yard
 
 RUBY VERSION
    ruby 2.4.1p111

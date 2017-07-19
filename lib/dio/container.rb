@@ -1,11 +1,9 @@
 # frozen_string_literal: true
 
-require 'dio/load_context'
-
 module Dio
-  # Provider loads dependencies and allows you to hook
+  # Container loads dependencies and allows you to hook
   # some processes before/after loading.
-  class Provider
+  class Container
     def initialize(factories = {})
       @factories = factories
     end

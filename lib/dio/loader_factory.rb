@@ -8,8 +8,8 @@ module Dio
       @wrappers = {}
     end
 
-    def create(provider, target)
-      loader = loader_for(target, provider)
+    def create(container, target)
+      loader = loader_for(target, container)
       Loader.new(loader)
     end
 
@@ -34,8 +34,8 @@ module Dio
 
     private
 
-    def loader_for(target, provider)
-      actual_loader = provider.method(:load)
+    def loader_for(target, container)
+      actual_loader = container.method(:load)
       wrapper = @wrappers[target.class]
       return actual_loader unless wrapper
 

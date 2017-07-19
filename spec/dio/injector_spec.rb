@@ -4,31 +4,31 @@ require 'spec_helper'
 
 describe Dio::Injector do
   describe '#register' do
-    it 'registers a given block to its provider' do
-      provider = spy('provider')
-      injector = Dio::Injector.new(provider)
+    it 'registers a given block to its container' do
+      container = spy('container')
+      injector = Dio::Injector.new(container)
       injector.register(:greet) {}
-      expect(provider).to have_received(:register)
+      expect(container).to have_received(:register)
     end
 
     it 'adds an injection process to object loading' do
-      provider = Dio::Provider.new
-      injector = Dio::Injector.new(provider)
+      container = Dio::Container.new
+      injector = Dio::Injector.new(container)
 
       greet = double('greet')
       allow(greet).to receive(:__dio_inject__)
 
       expect(injector).to receive(:inject)
       injector.register(:greet) { greet }
-      provider.load(:greet)
+      container.load(:greet)
     end
 
-    it 'registers a given object as a block to its provider' do
-      provider = Dio::Provider.new
-      injector = Dio::Injector.new(provider)
+    it 'registers a given object as a block to its container' do
+      container = Dio::Container.new
+      injector = Dio::Injector.new(container)
 
       injector.register(:greet, :hello)
-      expect(provider.load(:greet)).to eq(:hello)
+      expect(container.load(:greet)).to eq(:hello)
     end
 
     context 'if both of object and block are given' do

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'forwardable'
-require 'dio/provider'
+require 'dio/container'
 require 'dio/loader_factory'
 
 module Dio
@@ -9,18 +9,18 @@ module Dio
   class Injector
     extend Forwardable
 
-    def_delegators :@provider, :registered?
+    def_delegators :@container, :registered?
     def_delegators :@loader_factory, :wrap_load, :stub_deps, :reset_loader, :clear_stubs
 
-    def initialize(provider = Dio::Provider.new, loader_factory = Dio::LoaderFactory.new)
-      @provider = provider
+    def initialize(container = Dio::Container.new, loader_factory = Dio::LoaderFactory.new)
+      @container = container
       @loader_factory = loader_factory
-      @original_provider = nil
+      @original_container = nil
     end
 
     def register(key, object = nil)
       assert_register_args_valid(object, block_given?)
-      @provider.register(key) do |*args|
+      @container.register(key) do |*args|
         object = yield(*args) if block_given?
         injectable?(object) ? inject(object) : object
       end
@@ -30,7 +30,7 @@ module Dio
       unless injectable?(target)
         raise ArgumentError, 'The given object does not include Dio module'
       end
-      loader = @loader_factory.create(@provider, target)
+      loader = @loader_factory.create(@container, target)
       target.__dio_inject__(loader)
       target
     end

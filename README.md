@@ -1,5 +1,9 @@
 # Dio
 
+[![Build Status][travis-badge]](https://travis-ci.org/ryym/dio)
+
+[travis-badge]: https://travis-ci.org/ryym/dio.svg?branch=master
+
 Dio is a gem which allows you to do Dependency Injection (DI) in Ruby.
 This is mainly made for use with Rails.
 

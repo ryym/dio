@@ -22,6 +22,7 @@ module Dio
 
       DioForController = Dio.use(:default)
       include DioForController
+      private_constant :DioForController
 
       included do
         before_action do

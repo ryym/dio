@@ -62,6 +62,8 @@ module Dio
       injector.clear_stubs(clazz)
     end
 
+    private
+
     # Add some methods to a class which includes Dio module.
     def included(base)
       my_injector = injector
@@ -76,6 +78,7 @@ module Dio
 
     # InstanceMethods defines instance methods for classes using Dio.
     module InstanceMethods
+      # @api private
       def __dio_inject__(loader)
         injection_proc = self.class.__dio_injection_proc__
         instance_exec loader, &injection_proc if injection_proc
@@ -112,6 +115,7 @@ module Dio
         @__dio_injection_proc__ = injector
       end
 
+      # @api private
       def __dio_injection_proc__
         @__dio_injection_proc__
       end

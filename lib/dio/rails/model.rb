@@ -22,6 +22,7 @@ module Dio
 
       DioForModel = Dio.use(:default)
       include DioForModel
+      private_constant :DioForModel
 
       included do
         after_initialize do |model|

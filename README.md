@@ -7,19 +7,6 @@
 Dio is a gem which allows you to do Dependency Injection (DI) in Ruby.
 This is mainly made for use with Rails.
 
-## Motivation
-
-- I want to separate logics from Rails controllers.
-- I don't want to instantiate a logic class in controllers.
-  It makes it a bit cumbersome to use mocks in a test.
-- In many cases I want to use a class rather than mixin modules because:
-    - Mixin pollutes name space of an includer class.
-    - It is difficult to declare a private method in mixin module
-      that can't be seen even from an includer class.
-    - A class allows us to initialize it with some dependencies it needs.
-
-Dependency injection allows us to separate instantiation of dependencies from a class depending on them.
-
 ## Installation
 
 ```bash
@@ -185,3 +172,16 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 end
 ```
+
+## Motivation
+
+- I want to separate logics from Rails controllers.
+- I don't want to instantiate a logic class in controllers.
+  It makes it a bit cumbersome to use mocks in a test.
+- In many cases I want to use a class rather than mixin modules because:
+    - Mixin pollutes name space of an includer class.
+    - It is difficult to declare a private method in mixin module
+      that can't be seen even from an includer class.
+    - A class allows us to initialize it with some dependencies it needs.
+
+Dependency injection allows us to separate instantiation of dependencies from a class depending on them.

@@ -23,6 +23,22 @@ module Dio
       @state.reset(@injector_id => Dio::Injector.new)
     end
 
+    def wrap_load(clazz, &wrapper)
+      injector.wrap_load(clazz, &wrapper)
+    end
+
+    def stub_deps(clazz, deps)
+      injector.stub_deps(clazz, deps)
+    end
+
+    def reset_loader(clazz = nil)
+      injector.reset_loader(clazz)
+    end
+
+    def clear_stubs(clazz = nil)
+      injector.clear_stubs(clazz)
+    end
+
     def included(base)
       my_injector = injector
       injector_holder = Module.new do

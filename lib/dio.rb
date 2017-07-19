@@ -20,24 +20,4 @@ module Dio
   def self.default_injector
     injector
   end
-
-  def self.wrap_load(&loader)
-    injector.wrap_load(&loader)
-  end
-
-  def self.clear_wrap_loads
-    injector.clear_wrap_loads
-  end
-
-  def self.override(alts)
-    injector.override(alts)
-  end
-
-  def self.remove_overrides
-    injector.remove_overrides
-  end
-
-  def self.with(deps)
-    injector.with(deps)
-  end
 end

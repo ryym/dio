@@ -2,7 +2,6 @@
 
 require 'forwardable'
 require 'dio/provider'
-require 'dio/loader'
 require 'dio/loader_factory'
 
 module Dio
@@ -10,8 +9,8 @@ module Dio
   class Injector
     extend Forwardable
 
-    def_delegators :@provider, :registered?, :wrap_load, :clear_wrap_loads
-    def_delegators :@loader_factory, :stub_deps, :reset_loader # TODO: :wrap_load
+    def_delegators :@provider, :registered?
+    def_delegators :@loader_factory, :wrap_load, :stub_deps, :reset_loader, :clear_stubs
 
     def initialize(provider = Dio::Provider.new, loader_factory = Dio::LoaderFactory.new)
       @provider = provider
@@ -39,29 +38,6 @@ module Dio
     def create(clazz, *args)
       raise ArgumentError, "#{clazz} is not a class" unless clazz.is_a?(Class)
       inject(clazz.new(*args))
-    end
-
-    def override(deps)
-      unless overridden?
-        @original_provider = @provider
-        @provider = @provider.dup
-      end
-      @provider.register_all(deps)
-    end
-
-    def remove_overrides
-      return unless overridden?
-      @provider = @original_provider
-      @original_provider = nil
-    end
-
-    def overridden?
-      !@original_provider.nil?
-    end
-
-    def with(deps)
-      provider = @provider.dup
-      Injector.new(provider.register_all(deps))
     end
 
     private

@@ -5,16 +5,16 @@ module Dio
   class LoadContext
     attr_reader :key, :target, :args
 
-    def initialize(key, target, args, next_loader)
+    def initialize(key, target, args, loader)
       @key = key
       @target = target
       @args = args
-      @next = next_loader
+      @loader = loader
     end
 
-    def next(*args)
+    def load(*args)
       next_args = args.any? ? args : @args
-      @next.call(*next_args)
+      @loader.call(*next_args)
     end
   end
 end

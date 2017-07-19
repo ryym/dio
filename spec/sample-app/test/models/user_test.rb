@@ -2,8 +2,7 @@ require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
   teardown do
-    Dio.remove_overrides
-    Dio.injector.reset_loader
+    Dio.clear_stubs
   end
 
   test "#age without mock" do
@@ -14,39 +13,11 @@ class UserTest < ActiveSupport::TestCase
   end
 
   test "#age with mock" do
-    Dio.override(
-      AgeCalculator => proc {
-        AgeCalculator.new(Time.zone.local(2020, 1, 1))
-        # Or return a complete mock which responds to `from_birthday`.
-      }
-    )
-
-    user = User.new(birthday: Time.zone.local(2000, 3, 10))
-    assert_equal(20, user.age)
-  end
-
-  test "#age with mock2" do
-    Dio.injector.stub_deps(User, {
+    Dio.stub_deps(User, {
       AgeCalculator => AgeCalculator.new(Time.zone.local(2020, 1, 1))
     })
 
     user = User.new(birthday: Time.zone.local(2000, 3, 10))
     assert_equal(20, user.age)
-  end
-
-  test "#age with mock more simply" do
-    user_attrs = { birthday: Time.zone.local(2005, 1, 1) }
-
-    injector = Dio.with(
-      AgeCalculator => proc {
-        AgeCalculator.new(Time.zone.local(2020, 1, 1))
-      }
-    )
-    user = injector.create(User, user_attrs)
-    assert_equal(15, user.age)
-
-    # The original injector doesn't change.
-    user = Dio.create(User, user_attrs)
-    assert_equal(Time.zone.now.year - 2005, user.age)
   end
 end

@@ -20,7 +20,7 @@ module Dio
     def stub_deps(clazz, deps)
       wrap_load(clazz) do |ctx|
         dep = deps[ctx.key]
-        return ctx.next unless dep
+        return ctx.load unless dep
         dep.is_a?(Proc) ? dep.call(*ctx.args) : dep
       end
     end

@@ -21,24 +21,5 @@ describe Dio::Provider do
       expect(provider.load(:greet)).to eq('Hello, world')
       expect(provider.load(:greet, 'dio')).to eq('Hello, dio')
     end
-
-    context 'with load wrapping' do
-      it 'runs load wrappers in the registered order' do
-        provider = Dio::Provider.new
-        provider.register(:greet) { 'hello' }
-
-        logs = []
-        Array.new(3) do |i|
-          provider.wrap_load do |ctx|
-            logs << i
-            ctx.next
-          end
-        end
-
-        greet = provider.load(:greet)
-        expect(greet).to eq('hello')
-        expect(logs).to eq([0, 1, 2])
-      end
-    end
   end
 end

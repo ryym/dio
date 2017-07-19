@@ -3,6 +3,7 @@
 require 'forwardable'
 require 'dio/provider'
 require 'dio/loader'
+require 'dio/loader_factory'
 
 module Dio
   # Injector executes dependency injection.
@@ -10,9 +11,11 @@ module Dio
     extend Forwardable
 
     def_delegators :@provider, :registered?, :wrap_load, :clear_wrap_loads
+    def_delegators :@loader_factory, :stub_deps, :reset_loader # TODO: :wrap_load
 
-    def initialize(provider = Dio::Provider.new)
+    def initialize(provider = Dio::Provider.new, loader_factory = Dio::LoaderFactory.new)
       @provider = provider
+      @loader_factory = loader_factory
       @original_provider = nil
     end
 
@@ -28,7 +31,7 @@ module Dio
       unless injectable?(target)
         raise ArgumentError, 'The given object does not include Dio module'
       end
-      loader = Loader.new(@provider, target)
+      loader = @loader_factory.create(@provider, target)
       target.__dio_inject__(loader)
       target
     end

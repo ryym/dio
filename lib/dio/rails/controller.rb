@@ -4,8 +4,19 @@ require 'dio'
 
 module Dio
   module Rails
-    # Dio::Rails::Controller enables to inject dependencies to
-    # Rails controllers.
+    # Dio::Rails::Controller enables to inject dependencies to Rails controllers.
+    # Internally, this just add a `before_action` that injects dependencies.
+    #
+    # @example
+    #   class UsersController < ApplicationController
+    #     include Dio::Rails::Controller
+    #
+    #     inject do |dio|
+    #       @api = dio.load(UsersAPI)
+    #     end
+    #
+    #     # ...
+    #   end
     module Controller
       extend ActiveSupport::Concern
 

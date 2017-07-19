@@ -3,7 +3,8 @@
 require 'dio/injector_store'
 
 module Dio
-  # Dio::State holds states.
+  # Dio::State holds some global states.
+  # This is used internally.
   class State
     def initialize(injectors = Dio::InjectorStore.new)
       @injectors = injectors
@@ -13,10 +14,12 @@ module Dio
       @injectors.register(id, injector)
     end
 
+    # Load an injector from the given ID.
     def injector(id)
       @injectors.load(id)
     end
 
+    # Reset whole states.
     def reset(injectors = {})
       @injectors = Dio::InjectorStore.new(injectors)
     end

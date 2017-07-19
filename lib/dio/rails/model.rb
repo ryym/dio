@@ -4,8 +4,19 @@ require 'dio'
 
 module Dio
   module Rails
-    # Dio::Rails::Model enables to inject dependencies to
-    # Rails models.
+    # Dio::Rails::Model enables to inject dependencies to Rails models.
+    # Internally, this just add a `after_initialize` that injects dependencies.
+    #
+    # @example
+    #   class User < ApplicationRecord
+    #     include Dio::Rails::Model
+    #
+    #     inject do |dio|
+    #       @api = dio.load(UsersAPI)
+    #     end
+    #
+    #     # ...
+    #   end
     module Model
       extend ActiveSupport::Concern
 

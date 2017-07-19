@@ -13,10 +13,28 @@ module Dio
       Loader.new(loader)
     end
 
+    # Registers a process which wraps loading.
+    # Wrappers are run only when a given class is a target of injection.
+    #
+    # @param clazz [Class]
+    # @param wrapper [Block]
+    # @yield Dio::LoadContext
+    # @example
+    #   Dio.wrap_load(UsersController) do |ctx|
+    #     puts "loaded: #{ctx.key}"
+    #     ctx.load
+    #   end
     def wrap_load(clazz, &wrapper)
       @wrappers[clazz] = wrapper
     end
 
+    # Registers a mock dependencies for a given class.
+    # When a registered dependency is loaded,
+    # the mock is returned instead of the actual one.
+    # This uses {#wrap_load} internally.
+    #
+    # @param clazz [Class]
+    # @param deps [Hash]
     def stub_deps(clazz, deps)
       wrap_load(clazz) do |ctx|
         dep = deps[ctx.key]
@@ -25,6 +43,10 @@ module Dio
       end
     end
 
+    # Removes load wrappers registered via {#wrap_load} or {#stub_deps}.
+    # If you specify a class, only the wrappers for the class are removed.
+    #
+    # @param clazz [Class]
     def reset_loader(clazz = nil)
       return @wrappers.delete(clazz) if clazz
       @wrappers = {}
@@ -45,12 +67,13 @@ module Dio
       }
     end
 
-    # :nodoc:
+    # Loader just loads a dependency.
     class Loader
       def initialize(loader)
         @loader = loader
       end
 
+      # @see Dio::Container#load
       def load(key, *args)
         @loader.call(key, *args)
       end

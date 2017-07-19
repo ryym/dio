@@ -3,6 +3,7 @@
 require 'dio/injector'
 
 module Dio
+  # @api private
   # InjectorStore manages Dio::Injector instances.
   class InjectorStore
     def initialize(injectors = {})

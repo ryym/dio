@@ -4,7 +4,8 @@ require 'dio/module_base'
 require 'dio/state'
 
 module Dio
-  #:nodoc:
+  # @api private
+  # Equip extends a given module to add Dio methods.
   module Equip
     def self.equip_dio(
       injector_id:,

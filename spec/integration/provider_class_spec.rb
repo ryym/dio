@@ -6,9 +6,9 @@ describe 'Provider class' do
   it 'enables to provide various dependencies by one class' do
     Class.new do
       include Dio
-      provide :greet { 'hello' }
-      provide :reversed { |*args| args.reverse }
-      provide :filtered_hash { |a:, c:, **_rest| { a: a, c: c } }
+      provide(:greet) { 'hello' }
+      provide(:reversed) { |*args| args.reverse }
+      provide(:filtered_hash) { |a:, c:, **_rest| { a: a, c: c } }
     end
 
     target_class = Class.new do

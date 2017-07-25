@@ -3,6 +3,7 @@
 require 'dio/injector_store'
 
 module Dio
+  # @api private
   # Dio::State holds some global states.
   # This is used internally.
   class State

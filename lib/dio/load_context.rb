@@ -25,7 +25,7 @@ module Dio
     # @return [Object] The dependency object.
     def load(*args)
       next_args = args.any? ? args : @args
-      @loader.call(*next_args)
+      @loader.call(@key, *next_args)
     end
   end
 end

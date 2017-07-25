@@ -23,16 +23,16 @@ You can declare that a class is injectable.
 class SomeAPI
   include Dio
 
-  # Register a factory block.
-  # If you omit a block, `SomeAPI.new` is registered.
-  injectable do
-    SomeAPI.new(ENV['access-key'])
+  # Register this class as a injectable dependency.
+  injectable
+
+  # You can also register a factory block.
+  # (If a block is omitted, simply `SomeAPI.new` is registered)
+  injectable :with_special_key do
+    SomeAPI.new(ENV['special-key'])
   end
 
-  # You can register multiple factories.
-  injectable :with_custom_key
-
-  def initialize(access_key)
+  def initialize(access_key = ENV['access-key'])
     @access_key = access_key
   end
 
@@ -67,9 +67,9 @@ In this provider pattern, you must specify both of a key and a factory block.
 
 ### Configure injection
 
-In a class that has dependencies, define a `inject` block and
-load dependencies it needs.
+In a class that has dependencies, define a `inject` block and load dependencies it needs.
 `dio.load` runs a factory block registered with the given key.
+Also you can pass arguments for a factory block like `dio.load(:key, :arg1, :arg2)`.
 
 ```ruby
 class SomeAction
@@ -79,8 +79,10 @@ class SomeAction
   # you can store loaded dependencies as instance variables.
   inject do |dio|
     @api = dio.load(SomeAPI)
-    # @api = dio.load([SomeAPI, :with_custom_key], 'custom-access-key')
     @foo = dio.load(:foo, 'my-foo')
+
+    # @api = dio.load([SomeAPI, :with_special_key])
+    # @api = dio.load(SomeAPI, 'custom-key')
   end
 
   def load_some
@@ -155,7 +157,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
   test "should get index" do
     UserDetailMock = Class.new do
-      def fetch_detail(user)
+      def about(user)
         UserDetail::Data.new("mock", "mock detail")
       end
     end

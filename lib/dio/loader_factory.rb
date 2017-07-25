@@ -39,7 +39,7 @@ module Dio
       wrap_load(clazz) do |ctx|
         dep = deps[ctx.key]
         return ctx.load unless dep
-        dep.respond_to?(:is_a) && dep.is_a?(Proc) ? dep.call(*ctx.args) : dep
+        dep.respond_to?(:is_a?) && dep.is_a?(Proc) ? dep.call(*ctx.args) : dep
       end
     end
 

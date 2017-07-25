@@ -43,4 +43,34 @@ module Dio
   def self.default_injector
     injector
   end
+
+  # Currently this method does nothing.
+  # This method is intended to be used in the following situation.
+  #
+  # - You use a dependencies provider class
+  # - The provider class is autoloadable (you can't `require` it explicitly)
+  #
+  # In that case, you need to autoload the provider class before using dependencies it provides.
+  # You can use this noop method for that purpose.
+  #
+  # @example
+  #   class MyProvider
+  #     include Dio
+  #
+  #     provide :foo { Foo.new }
+  #   end
+  #
+  #   # In another file. You can autoload MyProvider naturally like this.
+  #   Dio.depends MyProvider
+  #
+  #   class UsersController < ApplicationController
+  #     include Dio::Rails::Controller
+  #
+  #     inject do |dio|
+  #       @foo = dio.load(:foo)
+  #     end
+  #   end
+  # @see
+  #   http://guides.rubyonrails.org/autoloading_and_reloading_constants.html
+  def self.depends(*_args); end
 end

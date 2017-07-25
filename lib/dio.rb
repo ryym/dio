@@ -2,6 +2,7 @@
 
 require 'active_support/concern'
 require 'dio/equip'
+require 'dio/version'
 
 # Dio provides DI functionality.
 # Note that most of the methods this module provides are

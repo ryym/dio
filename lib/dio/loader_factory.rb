@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'dio/load_context'
+
 module Dio
   # LoaderFactory creates Loader.
   # This also allows you to customize dependency loading.

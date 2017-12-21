@@ -18,10 +18,10 @@ Gem::Specification.new do |s|
 
   s.add_dependency 'rails', '~> 5'
 
-  s.add_development_dependency 'rspec'
-  s.add_development_dependency 'rspec-mocks'
-  s.add_development_dependency 'guard-rspec'
-  s.add_development_dependency 'rubocop'
-  s.add_development_dependency 'sqlite3'
-  s.add_development_dependency 'yard'
+  s.add_development_dependency 'rspec', '~> 3'
+  s.add_development_dependency 'rspec-mocks', '~> 3'
+  s.add_development_dependency 'guard-rspec', '~> 4'
+  s.add_development_dependency 'rubocop', '~> 0'
+  s.add_development_dependency 'sqlite3', '~> 1'
+  s.add_development_dependency 'yard', '~> 0'
 end
